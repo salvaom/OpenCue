@@ -38,6 +38,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/imageworks/OpenCue',
+    zip_safe=False,
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
 

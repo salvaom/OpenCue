@@ -44,6 +44,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
     ],
+    zip_safe=False,
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     data_files=[

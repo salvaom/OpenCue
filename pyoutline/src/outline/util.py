@@ -21,7 +21,7 @@ import os
 
 import FileSequence
 
-from config import config
+from .config import config
 
 
 def deaggregate_frame_set(frameset):

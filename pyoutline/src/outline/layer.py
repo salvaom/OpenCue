@@ -22,16 +22,16 @@ import tempfile
 
 import FileSequence
 
-from config import config
-import constants
-from depend import Depend
-from depend import DependType
-import event
-from exception import LayerException
-from exception import SessionException
-import io
-from loader import current_outline
-import util
+from .config import config
+from . import constants
+from .depend import Depend
+from .depend import DependType
+from . import event
+from .exception import LayerException
+from .exception import SessionException
+from . import io
+from .loader import current_outline
+from . import util
 
 
 __all__ = ["Layer",
@@ -60,7 +60,7 @@ class LayerType(type):
         for plugin in PluginManager.get_plugins():
             try:
                 plugin.init(r)
-            except AttributeError, e:
+            except AttributeError as e:
                 pass
         return r
 
@@ -415,7 +415,7 @@ class Layer(object):
                 logger.info("Setting post-set shot environement var: %s %s",
                             env_k, env_v)
                 os.environ[str(env_k)] = str(env_v)
-        except AttributeError, e:
+        except AttributeError as e:
             pass
 
         logger.info("Layer %s executing local frame set %s"
@@ -448,9 +448,9 @@ class Layer(object):
                 if hasattr(self, 'get_creator') and self.get_creator():
                     self.get_creator().set_arg(key, value)
                 logger.warn('Replaced arg %s with %s' % (key, value))
-        except SessionException, e:
+        except SessionException as e:
             logger.debug('args_override not found in session (This is normal)')
-        except Exception, e:
+        except Exception as e:
             logger.debug('Not loading args_override from session due to %s' % e)
 
     def set_default_arg(self, key, value):
@@ -794,7 +794,7 @@ class Layer(object):
 
         try:
             on_layer = self.__resolve_layer_name(on_layer)
-        except LayerException, e:
+        except LayerException as e:
             logger.warn("%s layer does not exist, depend failed" % on_layer)
             return
 
@@ -848,7 +848,7 @@ class Layer(object):
         """
         try:
             self.__depends.remove(depend)
-        except Exception, e:
+        except Exception as e:
             logger.warn("failed to remove dependency %s, %s" % (depend, e))
 
     def get_depends(self):

@@ -14,7 +14,7 @@
 
 
 """OpenCue integration module."""
-
+from __future__ import print_function
 import logging
 import os
 import sys
@@ -163,10 +163,10 @@ def wait(job):
                                 job.data.job_stats.total_frames))
         except opencue.CueException, ie:
             msg = "opencue error waiting on job: %s, %s. Will continue to wait."
-            print >> sys.stderr, msg % (job.data.name, ie)
-        except Exception, e:
+            print(msg % (job.data.name, ie), file=sys.stderr)
+        except Exception as e:
             msg = "opencue error waiting on job: %s, %s. Will continue to wait."
-            print >> sys.stderr, msg % (job.data.name, e)
+            print(msg % (job.data.name, e), file=sys.stderr)
         time.sleep(5)
 
 

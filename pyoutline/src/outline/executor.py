@@ -14,10 +14,14 @@
 
 
 """A simple python thread pool."""
-
-import Queue
 import threading
 import logging
+import sys
+
+if sys.version_info.major == 2:
+    import Queue
+else:
+    import queue as Queue
 
 __all__ = ["TaskExecutor"]
 
@@ -58,6 +62,6 @@ class TaskExecutor(object):
                     item[0](*item[1])
                 else:
                     item[0]()
-            except Exception, e:
+            except Exception as e:
                 logger.warn("Worker thread exception: %s" % e)
             self.__queue.task_done()

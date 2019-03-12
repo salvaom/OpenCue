@@ -15,6 +15,7 @@
 
 import sys
 import logging
+import functools
 
 from outline.config import config
 
@@ -29,7 +30,7 @@ class PluginManager(object):
         for plugin in cls.registered_plugins:
             try:
                 plugin.init_cuerun_plugin(cuerun)
-            except AttributeError, e:
+            except AttributeError as e:
                 pass
 
     @classmethod
@@ -42,11 +43,11 @@ class PluginManager(object):
                                 [module_name])
             try:
                 module.loaded()
-            except  AttributeError, e:
+            except AttributeError as e:
                 pass
             cls.registered_plugins.append(module)
 
-        except ImportError, e:
+        except ImportError as e:
             sys.stderr.write("Warning: plugin load failed: %s\n" % e)
 
     @classmethod
@@ -59,13 +60,13 @@ class PluginManager(object):
             plugin = __import__(module_name, globals(), locals(), [module_name])
             try:
                 plugin.init(layer)
-            except AttributeError, e:
+            except AttributeError as e:
                 pass
-        except ImportError, e:
+        except ImportError as e:
             sys.stderr.write("Warning: plugin load failed: %s\n" % e)
 
     @classmethod
-    def load_all_plugins(cls):        
+    def load_all_plugins(cls):
         def sort_by_priority(a, b):
             priority_option = "priority"
             a_priority = 0
@@ -74,10 +75,11 @@ class PluginManager(object):
                 a_priority = config.getint(a, priority_option)
             if config.has_option(b, priority_option):
                 b_priority = config.getint(b, priority_option)
-            return cmp(b_priority, a_priority)
-        
-        sections = sorted(config.sections(), cmp=sort_by_priority)
-        
+            return (a_priority > b_priority) - (a_priority < b_priority)
+
+        sections = sorted(config.sections(),
+                          key=functools.cmp_to_key(sort_by_priority))
+
         for section in sections:
             if section.startswith("plugin:"):
                 if config.getint(section, "enable"):
@@ -87,4 +89,3 @@ class PluginManager(object):
     @classmethod
     def get_plugins(cls):
         return cls.registered_plugins
-

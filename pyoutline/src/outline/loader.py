@@ -25,13 +25,13 @@ import simplejson
 
 import FileSequence
 
-import constants
-from depend import parse_require_str
-from exception import OutlineException
-from exception import SessionException
-from session import is_session_path
-from session import Session
-import util
+from . import constants
+from .depend import parse_require_str
+from .exception import OutlineException
+from .exception import SessionException
+from .session import is_session_path
+from .session import Session
+from . import util
 
 
 logger = logging.getLogger("outline.loader")
@@ -130,7 +130,7 @@ def load_json(json):
             error = "Json error, layer missing 'name' or 'module' definition"
             raise OutlineException(error)
 
-        except Exception, e:
+        except Exception as e:
             msg = "Failed to load plugin: %s , %s"
             raise OutlineException(msg % (s_class, e))
 
@@ -154,7 +154,7 @@ def parse_outline_script(path):
     try:
         logger.info("parsing outline file %s" % path)
         execfile(path, {})
-    except Exception, exp:
+    except Exception as exp:
         logger.warn("failed to parse as python file, %s" % exp)
         raise OutlineException("failed to parse outline file: %s, %s" %
                                (path, exp))
@@ -437,7 +437,7 @@ class Outline(object):
                     require, dtype = parse_require_str(layer.get_arg("require"))
                     try:
                         layer.depend_on(self.get_layer(require), dtype)
-                    except OutlineException, e:
+                    except OutlineException as e:
                         logger.warn("Invalid layer in depend %s, skipping" % require)
                         continue
                 else:
@@ -446,7 +446,7 @@ class Outline(object):
                         require, dtype = parse_require_str(require)
                         try:
                             layer.depend_on(self.get_layer(str(require)), dtype)
-                        except OutlineException, e:
+                        except OutlineException as e:
                             logger.warn("Invalid layer in depend %s, skipping" % require)
                             continue
 
@@ -499,7 +499,7 @@ class Outline(object):
         layer_map = dict([(evt.get_name(), evt) for evt in self.__layers])
         try:
             return layer_map[name]
-        except Exception, e:
+        except Exception as e:
             raise OutlineException("invalid layer name: %s, %s" % (name, e))
 
     def get_layers(self):

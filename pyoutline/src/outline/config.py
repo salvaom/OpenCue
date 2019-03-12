@@ -16,8 +16,12 @@
 """Outline configuration"""
 
 import os
+import sys
 
-from ConfigParser import SafeConfigParser
+if sys.version_info.major == 2:
+    from ConfigParser import SafeConfigParser
+else:
+    from configparser import ConfigParser as SafeConfigParser
 
 __all__ = ["config"]
 

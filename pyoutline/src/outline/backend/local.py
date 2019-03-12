@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import print_function
 
 import sqlite3
 import subprocess
@@ -81,7 +82,7 @@ def build_frame_range(frame_range, chunk_size):
             frames.append(frame_set.__getitem__(0))
         else:
             unique_frames = list(set(frame_set))
-            print unique_frames
+            print(unique_frames)
             for i in range(0, len(unique_frames)):
                 if i % chunk_size == 0:
                     frames.append(unique_frames[i])
@@ -110,7 +111,7 @@ class Dispatcher(object):
                     retcode = subprocess.call(command, shell=False)
                     if retcode != 0:
                         raise Exception("frame failed")
-                except Exception, e:
+                except Exception as e:
                     # Failed to run frame
                     # Set frame to dead
                      c = self.__conn.cursor()
@@ -118,8 +119,8 @@ class Dispatcher(object):
                                ('DEAD', l, f))
                      self.__conn.commit()
 
-        except Exception, e:
-            print "Job is done: %s" % e
+        except Exception as e:
+            print("Job is done: %s" % e)
         finally:
             self.__conn.close()
 

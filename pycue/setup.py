@@ -47,6 +47,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
+    zip_safe=False,
     packages=find_packages(exclude=['tests']),
     package_data={
         'opencue': ['default.yaml'],

@@ -15,6 +15,6 @@
 
 import os
 
-from manager import PluginManager
+from .manager import PluginManager
 
 PluginManager.load_all_plugins()

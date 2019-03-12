@@ -14,6 +14,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import print_function
 
 import os
 import sys
@@ -38,7 +39,7 @@ class TaskExecutorTest(unittest.TestCase):
         e.wait()
 
     def print_(self, msg):
-        print "Test Message: %s" % msg
+        print("Test Message: %s" % msg)
         time.sleep(1)
 
 if __name__ == '__main__':

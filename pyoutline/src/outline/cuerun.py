@@ -23,11 +23,11 @@ from optparse import OptionParser, OptionGroup
 
 import FileSequence
 
-from config import config
-import constants
-from layer import Frame
-from loader import load_outline
-import util
+from . import config
+from . import constants
+from .layer import Frame
+from .loader import load_outline
+from . import util
 
 
 logger = logging.getLogger("outline.cuerun")

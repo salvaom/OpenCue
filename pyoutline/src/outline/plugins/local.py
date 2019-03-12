@@ -65,7 +65,7 @@ def deed_local_machine():
     show = opencue.findShow(os.environ.get("SHOW", "pipe"))
     try:
         owner = opencue.getOwner(user)
-    except opencue.CueException, e:
+    except opencue.CueException as e:
         owner = show.createOwner(user)
 
     owner.takeOwnership(gethostname())

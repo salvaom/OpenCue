@@ -12,6 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from __future__ import print_function
 
 import os
 import shutil
@@ -107,7 +108,7 @@ class Session(object):
                 del self.__modules[module]
                 os.unlink(path)
                 return True
-            except KeyError, kerr:
+            except KeyError as kerr:
                 logger.warn("Module %s was not loaded." % module)
         else:
             logger.warn("Failed to remove symlink '%s', does not exist." % path)
@@ -150,8 +151,8 @@ class Session(object):
             fob, path, desc = imp.find_module('manifest', [path])
             mob = imp.load_module("manifest", fob, path, desc)
             fob.close()
-        except Exception, e:
-            print "Failed to execute manifest file: %s" % e
+        except Exception as e:
+            print("Failed to execute manifest file: %s" % e)
 
     def __lock_module(self, name, version):
         self.__modules[name] = str(version)

@@ -39,7 +39,7 @@ AFTER_EXECUTE = EVENT_TYPES[4]
 AFTER_LAUNCH = EVENT_TYPES[5]
 BEFORE_LAUNCH = EVENT_TYPES[6]
 
-from exception import FailImmediately
+from outline.exception import FailImmediately
 
 class EventHandler(object):
     """
@@ -64,10 +64,10 @@ class EventHandler(object):
         for callback in self.__listeners.get(event.type, []):
             try:
                 callback(event)
-            except FailImmediately, fi:
+            except FailImmediately as fi:
                 logger.debug("FailImmediately exception thrown, %s, %s" % (event.type, fi))
                 raise fi
-            except Exception, e:
+            except Exception as e:
                 logger.debug("failed to execute event %s, %s" % (event.type, e))
 
     def get_event_listeners(self, event_type):

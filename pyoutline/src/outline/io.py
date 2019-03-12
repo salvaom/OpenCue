@@ -25,8 +25,8 @@ import shlex
 
 import FileSequence
 
-from exception import FileSpecException
-from exception import ShellCommandFailureException
+from .exception import FileSpecException
+from .exception import ShellCommandFailureException
 
 
 logger = logging.getLogger("outline.io")
@@ -77,7 +77,7 @@ def system(cmd, ignore_error=False, frame=None):
             msg = "shell out to '%s' failed, exit status %d" % (str_cmd, retcode)
             logger.critical(msg)
             raise ShellCommandFailureException(msg, retcode)
-    except OSError, oserr:
+    except OSError as oserr:
         msg = "shell out to '%s' failed, msg %s errno %d" % (str_cmd,
                                                              oserr.strerror,
                                                              oserr.errno)
@@ -212,7 +212,7 @@ class FileSpec(Path):
         Path.__init__(self, path, **args)
         try:
             self.__fs = FileSequence.FileSequence(self.get_path())
-        except ValueError, e:
+        except ValueError as e:
             logger.critical("Failed to parse spec: %s." % self.get_path())
             raise e
 
@@ -266,13 +266,13 @@ class FileSpec(Path):
                 path = self.get_frame_path(f)
                 try:
                     size += os.path.getsize(path)
-                except OSError, e:
+                except OSError as e:
                     logger.warn("Failed to find the size of: %s, %s" % (path, e))
         else:
             for path in self.__fs:
                 try:
                     size += os.path.getsize(path)
-                except OSError, e:
+                except OSError as e:
                     logger.warn("Failed to find the size of: %s, %s" % (path, e))
                     
         return size
@@ -333,7 +333,7 @@ class FileSpec(Path):
         else:
             try:
                 res = rep[-3]
-            except IndexError, e:
+            except IndexError as e:
                 res = None
                 msg = "Unable to find valid resolution: %s, %s" % (rep, e)
                 raise FileSpecException(msg)
