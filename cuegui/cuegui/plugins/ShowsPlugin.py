@@ -31,7 +31,7 @@ PLUGIN_PROVIDES = "ShowsDockWidget"
 class ShowsDockWidget(cuegui.AbstractDockWidget.AbstractDockWidget):
     """This builds what is displayed on the dock widget"""
     def __init__(self, parent):
-        super(ShowsDockWidget, self).__init__(parent=parent, name=PLUGIN_NAME)
+        super(ShowsDockWidget, self).__init__(parent, PLUGIN_NAME)
 
         self.__showsWidget = cuegui.ShowsWidget.ShowsWidget(self)
 
